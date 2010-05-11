@@ -13,7 +13,7 @@ parameters_description	= {
   'path': 'Path to the directory to check (required)',
   'days=180': 'Number of days in the past to check files against. Files that aren\'t modified since will be deleted if --delete=yes',
   'delete=no': 'Delete files that are older than --days if value = \'yes\'. Default is to print a list of files that would be deleted',
-  'delete-empty-dirs=yes': 'Will delete empty directories in path when --delete=yes'
+  'delete-empty-dirs=yes': 'Delete empty directories in path when deleting the last file in it via --delete=yes'
 }
 
 def usage():
