@@ -94,10 +94,13 @@ def main():
 
                 sBytes_deleted  = locale.format('%(a).2f MB', { 'a': bytes_deleted / 1048576 }, True)
 
-    if delete == False:
-        print 'Would free up %s' % (sBytes_deleted)
+    if sBytes_deleted:
+        if delete == False:
+            print 'Would free up %s' % (sBytes_deleted)
+        else:
+            print 'Freed up %s' % (sBytes_deleted)
     else:
-        print 'Freed up %s' % (sBytes_deleted)
+        print 'Nothing to delete'
 
 if __name__ == '__main__':
   main()
