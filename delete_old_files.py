@@ -34,6 +34,7 @@ def main():
     delete = False
     delete_empty_dirs = True
     bytes_deleted = 0
+    sBytes_deleted = ''
 
     for o, a in opts:
         if o in ('-h', '--help'):
