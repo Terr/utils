@@ -8,18 +8,21 @@ locale.setlocale(locale.LC_ALL, '')
 
 parameters = 'hp:d:'
 parameters_long = ['help', 'path=', 'days=', 'delete=', 'delete-empty-dirs=']
-parameters_description	= {
-  'help': 'This help screen',
-  'path': 'Path to the directory to check (required)',
-  'days=180': 'Number of days in the past to check files against. Files that aren\'t modified since will be deleted if --delete=yes',
-  'delete=no': 'Delete files that are older than --days if value = \'yes\'. Default is to print a list of files that would be deleted',
-  'delete-empty-dirs=yes': 'Delete empty directories in path when deleting the last file in it via --delete=yes'
-}
+parameters_description	= (
+  { '-h, --help': 'This help screen' },
+  { '-p, --path': 'Path to the directory to check (required)' },
+  { '-d, --days=180': 'Number of days in the past to check files against' },
+  { '--delete=no': 'Delete files that are older than --days if value = \'yes\'. Default is to print a list of files that would be deleted' },
+  { '--delete-empty-dirs=yes': 'Delete empty directories in path when deleting the last file in it with --delete=yes' }
+)
 
 def usage():
   print 'Possible options:'
   for p in parameters_description:
-    print '--%s: %s' % (p, parameters_description.get(p, None))
+    sKey    = p.keys()[0]
+    sValue  = p.values()[0]
+
+    print '%s:%s%s.' % (sKey, ' '*(24 - len(sKey)), sValue)
 
 def main():
     try:
