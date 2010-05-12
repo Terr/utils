@@ -29,76 +29,76 @@ def main():
         usage()
         sys.exit(2)
 
-    path = None
-    days = 180
-    delete = False
-    delete_empty_dirs = True
-    bytes_deleted = 0
-    sBytes_deleted = ''
+    sPath   = None
+    iDays   = 180
+    bDeleteFiles    = False
+    bDeleteEmptyDirs    = True
+    iBytesDeleted   = 0
+    sBytesDeleted   = ''
 
     for o, a in opts:
         if o in ('-h', '--help'):
             usage()
             sys.exit()
         elif o in ('p', '--path'):
-            path = a
+            sPath = a
 
         elif o in ('d', '--days'):
-            days = int(a)
+            iDays = int(a)
         elif o == '--delete':
             if a == 'yes':
-                delete = True
+                bDeleteFiles = True
         elif o == '--delete-empty-dirs':
             if a == 'no':
-              delete_empty_dirs = False
+              bDeleteEmptyDirs = False
         else:
             assert False, 'Invalid option'
 
-    if path == None:
+    if sPath == None:
         assert False, '--path parameter is required'
 
-    delete_date_from =  datetime.date.today() - datetime.timedelta(days = days)
+    delete_date_from =  datetime.date.today() - datetime.timedelta(days = iDays)
 
-    dir_list	= os.walk(path)
+    dir_list	= os.walk(sPath)
 
-    for dirpath, dirnames, filenames in dir_list:
-        for file in filenames:
-            file_path	= dirpath + os.sep + file
-            file_stat	= os.stat(file_path)
-            file_date	= datetime.datetime.fromtimestamp(file_stat.st_mtime)
+    for sDirPath, lDirNames, lFilenames in dir_list:
+        for file in lFilenames:
+            sFilePath	= sDirPath + os.sep + file
+            statFile	= os.stat(sFilePath)
+            dateFile	= datetime.datetime.fromtimestamp(statFile.st_mtime)
 
-            if file_date.date() <= delete_date_from:
-                if delete == False:
-                    print 'Would delete: %s' % (file_path)
+            if dateFile.date() <= delete_date_from:
+                if bDeleteFiles == False:
+                    print 'Would delete: %s' % (sFilePath)
                 else:
-                    os.remove(file_path)
-                    print 'Deleted: %s' % (file_path)
+                    os.remove(sFilePath)
+                    print 'Deleted: %s' % (sFilePath)
 
-                bytes_deleted += file_stat.st_size
+                iBytesDeleted += statFile.st_size
 
-                dir_handled = os.listdir(dirpath)
+                dirHandled = os.listdir(sDirPath)
 
                 # Manually remove file from directory listing when not deleting
                 # the file
-                if delete == False:
-                    for x in dir_handled:
+                if bDeleteFiles == False:
+                    for x in dirHandled:
                         if x == file:
-                            dir_handled.remove(x)
+                            dirHandled.remove(x)
 
-                if len(dir_handled) == 0:
-                    if delete == False:
-                        print 'Would delete empty directory: %s' % (dirpath)
+                if len(dirHandled) == 0:
+                    if bDeleteFiles == False:
+                        print 'Would delete empty directory: %s' % (sDirPath)
                     else:
-                        os.removedirs(dirpath)
-                        print 'Deleted empty directory: %s' % (dirpath)
+                        os.removedirs(sDirPath)
+                        print 'Deleted empty directory: %s' % (sDirPath)
 
-                sBytes_deleted  = locale.format('%(a).2f MB', { 'a': bytes_deleted / 1048576 }, True)
+                sBytesDeleted  = locale.format('%(a).2f MB', { 'a': iBytesDeleted / 1048576 }, True)
 
-    if sBytes_deleted:
-        if delete == False:
-            print 'Would free up %s' % (sBytes_deleted)
+    if sBytesDeleted:
+        if bDeleteFiles == False:
+            print 'Would free up %s' % (sBytesDeleted)
         else:
-            print 'Freed up %s' % (sBytes_deleted)
+            print 'Freed up %s' % (sBytesDeleted)
     else:
         print 'Nothing to delete'
 
