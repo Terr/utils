@@ -57,17 +57,17 @@ def main():
     if sPath == None:
         assert False, '--path parameter is required'
 
-    delete_date_from =  datetime.date.today() - datetime.timedelta(days = iDays)
+    dateDeleteFrom =  datetime.date.today() - datetime.timedelta(days = iDays)
 
-    dir_list	= os.walk(sPath)
+    lDirList	= os.walk(sPath)
 
-    for sDirPath, lDirNames, lFilenames in dir_list:
+    for sDirPath, lDirNames, lFilenames in lDirList:
         for file in lFilenames:
             sFilePath	= sDirPath + os.sep + file
             statFile	= os.stat(sFilePath)
             dateFile	= datetime.datetime.fromtimestamp(statFile.st_mtime)
 
-            if dateFile.date() <= delete_date_from:
+            if dateFile.date() <= dateDeleteFrom:
                 if bDeleteFiles == False:
                     print 'Would delete: %s' % (sFilePath)
                 else:
