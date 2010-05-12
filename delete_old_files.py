@@ -40,10 +40,10 @@ def main():
         if o in ('-h', '--help'):
             usage()
             sys.exit()
-        elif o in ('p', '--path'):
+        elif o in ('-p', '--path'):
             sPath = a
 
-        elif o in ('d', '--days'):
+        elif o in ('-d', '--days'):
             iDays = int(a)
         elif o == '--delete':
             if a == 'yes':
